@@ -65,10 +65,15 @@ class StoresAnswers extends AnswerEntity
     chooseStoreAnswer(recipientId)
     {
 
-        return FacebookMessageAPI.getTextMessageData(
+        return FacebookMessageAPI.getButtonMessageData(
             recipientId,
-            "You are looking for stores. In what city?\ne.g. Stores in Belgrade"
-        );
+            'Please press on city you want, if its not listed write as message.\ne.g Stores in Belgrade.',
+            [
+                new WebHookButton('Beograd', {type: 'store', entities: {entity: 'cities', value: 'Beograd'}}),
+                new WebHookButton('Novi Sad', {type: 'store', entities: {entity: 'cities', value: 'Novi Sad'}}),
+                new WebHookButton('Subotica', {type: 'store', entities: {entity: 'cities', value: 'Subotica'}}),
+            ]
+        )
 
     }
 
@@ -111,13 +116,21 @@ class StoresAnswers extends AnswerEntity
 
                     }
 
-                    let responseData = (data && data.data instanceof Array ? data.data : []).map((store) => {
+                    let responseData = [];
 
-                        return store.attributes.address + ', ' + store.attributes.postCode + ' ' + store.attributes.city;
+                    (data && data.data instanceof Array ? data.data : []).map((store) => {
+
+                        if (10 === responseData.length) {
+
+                            return;
+
+                        }
+
+                        responseData.push((store.attributes.address + ', ' + store.attributes.postCode).replace('<br>', ''));
 
                     });
 
-                    callback( FacebookMessageAPI.getTextMessageData(recipientId, responseData.join('<br />')) );
+                    callback( FacebookMessageAPI.getTextMessageData(recipientId, responseData.join("\n")) );
 
                 });
 
