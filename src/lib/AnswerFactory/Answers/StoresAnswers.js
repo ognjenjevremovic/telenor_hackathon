@@ -69,10 +69,9 @@ class StoresAnswers extends AnswerEntity
             recipientId,
             'Please press on city you want, if its not listed write as message.\ne.g Stores in Belgrade.',
             [
-                new WebHookButton('Belgrade', {type: 'store', city: 11}),
-                new WebHookButton('Novi Sad', {type: 'store', city: 43}),
-                new WebHookButton('Nis', {type: 'store', city: 38})
-                // new WebHookButton('Subotica', {type: 'store', city: 67})
+                new WebHookButton('Beograd', {type: 'store', entities: {entity: 'cities', value: 'Beograd'}}),
+                new WebHookButton('Novi Sad', {type: 'store', entities: {entity: 'cities', value: 'Novi Sad'}}),
+                new WebHookButton('Subotica', {type: 'store', entities: {entity: 'cities', value: 'Subotica'}}),
             ]
         )
 
