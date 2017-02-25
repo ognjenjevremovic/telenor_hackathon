@@ -80,21 +80,15 @@ function contactWatson(event) {
     pingWatson(messageText)
         .then(({intent, entities}) => {
 
-            console.log(intent, entities);
-
             console.log('Getting factory.');
 
-            console.log(
+            factory.factory(senderId, intent, entities, (messageData) => {
 
-                factory.factory(senderId, intent, entities, (messageData) => {
+                console.log('Got message.');
 
-                    console.log('Got message.');
+                facebookApi.send(messageData);
 
-                    facebookApi.send(messageData);
-
-                })
-
-            );
+            });
 
         })
         .catch((err) => {

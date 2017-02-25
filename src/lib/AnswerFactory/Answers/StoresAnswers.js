@@ -25,8 +25,6 @@ class StoresAnswers extends AnswerEntity
     factory(recipientId, entities, callback)
     {
 
-        console.log('Store Factory', callback);
-
         if (typeof callback !== 'function') {
 
             return null;
@@ -36,8 +34,6 @@ class StoresAnswers extends AnswerEntity
         entities = entities instanceof Array ? entities : [];
 
         if (0 === entities.length) {
-
-            console.log('Empty cities');
 
             callback(this.chooseStoreAnswer(recipientId));
 
