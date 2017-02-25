@@ -84,13 +84,17 @@ function contactWatson(event) {
 
             console.log('Getting factory.');
 
-            factory.factory(senderId, intent, entities, (messageData) => {
+            console.log(
 
-                console.log('Got message.');
+                factory.factory(senderId, intent, entities, (messageData) => {
 
-                facebookApi.send(messageData);
+                    console.log('Got message.');
 
-            });
+                    facebookApi.send(messageData);
+
+                })
+
+            );
 
         })
         .catch((err) => {
