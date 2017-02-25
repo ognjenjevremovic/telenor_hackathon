@@ -67,16 +67,14 @@ class StoresAnswers extends AnswerEntity
 
         return FacebookMessageAPI.getButtonMessageData(
             recipientId,
-            'Test',
+            'Please press on city you want, if its not listed write as message.\ne.g Stores in Belgrade.',
             [
-                new WebHookButton('Test', {name: 'Coa'})
+                new WebHookButton('Belgrade', {type: 'store', city: 11}),
+                new WebHookButton('Novi Sad', {type: 'store', city: 43}),
+                new WebHookButton('Nis', {type: 'store', city: 38}),
+                new WebHookButton('Subotica', {type: 'store', city: 67})
             ]
-        );
-
-        // return FacebookMessageAPI.getTextMessageData(
-        //     recipientId,
-        //     "You are looking for stores. In what city?\ne.g. Stores in Belgrade"
-        // );
+        )
 
     }
 
