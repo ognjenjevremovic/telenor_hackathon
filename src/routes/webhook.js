@@ -82,7 +82,11 @@ function contactWatson(event) {
 
             console.log(intent, entities);
 
+            console.log('Getting factory.');
+
             factory.factory(senderId, intent, entities, (messageData) => {
+
+                console.log('Got message.');
 
                 facebookApi.send(messageData);
 
