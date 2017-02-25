@@ -71,8 +71,8 @@ class StoresAnswers extends AnswerEntity
             [
                 new WebHookButton('Belgrade', {type: 'store', city: 11}),
                 new WebHookButton('Novi Sad', {type: 'store', city: 43}),
-                new WebHookButton('Nis', {type: 'store', city: 38}),
-                new WebHookButton('Subotica', {type: 'store', city: 67})
+                new WebHookButton('Nis', {type: 'store', city: 38})
+                // new WebHookButton('Subotica', {type: 'store', city: 67})
             ]
         )
 
