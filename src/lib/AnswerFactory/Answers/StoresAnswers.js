@@ -69,7 +69,7 @@ class StoresAnswers extends AnswerEntity
             recipientId,
             'Test',
             [
-                new WebHookButton('Test', {name: 'Coa'});
+                new WebHookButton('Test', {name: 'Coa'})
             ]
         );
 
