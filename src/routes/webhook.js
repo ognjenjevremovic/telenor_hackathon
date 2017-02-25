@@ -119,17 +119,35 @@ function receivedMessage(event) {
     }
 }
 
-function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
-  };
 
-  callSendAPI(messageData);
+const fbButtons = require(__dirname + '/../lib/FacebookMessage/FacebookButtons');
+
+const FacebookMessageAPI = require(__dirname + '/../lib/FacebookMessage/FacebookMessageAPI');
+
+
+function sendTextMessage(recipientId, messageText) {
+
+    let buttons = [
+        new fbButtons.FacebookWebHookButton('Web Hook Test', {data: 'to be', sent: true}),
+        new fbButtons.FacebookUrlButton('Url Test', 'www.google.com')
+    ];
+
+    let api = new FacebookMessageAPI(ACCESS_TOKEN);
+
+    api.sendMessage(
+        FacebookMessageAPI.getButtonMessageData(recipientId, messageText, buttons)
+    );
+
+    // var messageData = {
+    // recipient: {
+    //   id: recipientId
+    // },
+    // message: {
+    //   text: messageText
+    // }
+  // };
+
+  // callSendAPI(messageData);
 }
 
 function callSendAPI(messageData) {

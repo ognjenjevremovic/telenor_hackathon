@@ -3,7 +3,7 @@ const request = require('request');
 
 const FacebookButton = require('./FacebookButtons').FacebookButton;
 
-const SEND_API_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token=';
+// const SEND_API_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token=';
 
 const _fieldAccessToken = Symbol('accessToken');
 
@@ -23,18 +23,48 @@ class FacebookMessageAPI
 
         this[_fieldAccessToken] = accessToken;
 
-        this[_fieldSendApiUrl] = SEND_API_URL + accessToken;
-
     }
 
     /**
      *
-     * Retrieves data for "typing" message
+     * @param {Object} messageData
+     */
+    sendMessage(messageData)
+    {
+
+        request({
+
+            uri: 'https://graph.facebook.com/v2.6/me/messages',
+
+            qs: { access_token: this[_fieldAccessToken] },
+
+            method: 'POST',
+
+            json: messageData
+
+        },
+
+        (error, response, body) => {
+
+            if (error || 200 !== response.statusCode) {
+
+                console.error('Unable to send message.', error, response);
+
+            }
+
+        });
+
+    }
+    
+    /**
+     *
+     * Retrieves data for 'typing' message
      *
      * @param {String} recipientId
+     * @param {String} notificationType typing_on, typing_off or mark_seen
      * @return {{recipient: String, sender_action: String}}
      */
-    getTypingNotificationData(recipientId)
+    static getNotificationData(recipientId, notificationType)
     {
 
         return {
@@ -55,7 +85,7 @@ class FacebookMessageAPI
      * @param {String} message
      * @return {{recipient: {id: String}, message: {text: String}}}
      */
-    getTextMessageData(recipientId, message)
+    static getTextMessageData(recipientId, message)
     {
 
         return {
@@ -77,7 +107,7 @@ class FacebookMessageAPI
      * @param {FacebookButton[]} buttons
      * @return {{recipient: {id: *}, message: {attachment: {type: string, payload: {template_type: string, text: *, buttons: Array}}}}}
      */
-    getButtonMessageData(recipientId, text, buttons)
+    static getButtonMessageData(recipientId, text, buttons)
     {
 
         return {
