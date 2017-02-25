@@ -73,6 +73,7 @@ router.post('/', function (req, res) {
                     }
 
                     //  Send the response back to facebook
+                    console.log(payload);
                     if(payload) {
                         factory.factory(senderId, payload.type, payload.entities, (messageData) => {
                             facebookApi.send(messageData);
