@@ -121,7 +121,7 @@ class StoresAnswers extends AnswerEntity
 
                     let responseData = (data && data.data instanceof Array ? data.data : []).map((store) => {
 
-                        return store.attributes.address + ', ' + store.attributes.postCode + ' ' + store.attributes.city;
+                        return store.attributes.address;
 
                     });
 
