@@ -7,7 +7,8 @@ module.exports = (responseFromWatson) => {
 
     //  Take the highest matching intent
     const intent = intents.sort((first, second) => {
-        return -(first.confidence - second.confidence);
+        if(first && second) return -(first.confidence - second.confidence);
+        return 0;
     })[0];
 
     //  Return the object of intent and entities
