@@ -43,6 +43,7 @@ router.post('/', function (req, res) {
     if (data.object === 'page') {
 
         // Iterate over each entry - there may be multiple if batched
+        console.log(data.entry instanceof Array);
         data.entry.forEach(function (entry) {
             var pageID = entry.id;
             var timeOfEvent = entry.time;
@@ -76,9 +77,9 @@ function contactWatson(event) {
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
-        .then((data) => {
-            console.log(data.intent, data.entities);
-            console.log(factory.factory(data.intent, data.entities));
+        .then(({intent, entities}) => {
+            console.log(intent, entities);
+            console.log(factory.factory(intent, entities));
         })
         .catch((err) => {
 
