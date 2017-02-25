@@ -11,7 +11,7 @@ const factory = new AnswerFactory();
 const router = express.Router();
 
 //  Send request to Watson
-const pingWatson = require(path.join(__dirname, '../', 'helpers', 'pingWatson'));
+const pingWatson = require(path.join(__dirname, '../', 'watson', 'request'));
 
 //  Watson convo config
 const { USER_NAME, USER_PASS, WORKSPACE_ID, ACCESS_TOKEN } = process.env;
@@ -47,8 +47,6 @@ router.post('/', function (req, res) {
             var pageID = entry.id;
             var timeOfEvent = entry.time;
 
-            console.log(entry.messaging);
-
             // Iterate over each messaging event
             entry.messaging.forEach(function (event) {
                 if (event.message) {
@@ -72,9 +70,8 @@ function contactWatson(event) {
     console.log(`
         Recieved message from the page!
     `);
-    // console.log(JSON.stringify(message.text));
 
-    var messageText = JSON.stringify(message.text);
+    var messageText = message.text;
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
