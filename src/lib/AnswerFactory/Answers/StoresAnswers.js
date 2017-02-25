@@ -54,7 +54,7 @@ class StoresAnswers extends AnswerEntity
 
         return FacebookMessageAPI.getTextMessageData(
             recipientId,
-            'You are looking for stores. In what city? e.g. Stores in Belgrade',
+            'You are looking for stores. In what city? e.g. Stores in Belgrade'
         );
 
     }
