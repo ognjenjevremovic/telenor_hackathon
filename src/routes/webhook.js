@@ -43,7 +43,6 @@ router.post('/', function (req, res) {
     if (data.object === 'page') {
 
         // Iterate over each entry - there may be multiple if batched
-        console.log(data.entry instanceof Array);
         data.entry.forEach(function (entry) {
             var pageID = entry.id;
             var timeOfEvent = entry.time;
@@ -71,8 +70,6 @@ function contactWatson(event) {
     console.log(`
         Recieved message from the page!
     `);
-    console.log(JSON.stringify(message.text));
-
     var messageText = message.text;
     var messageAttachments = message.attachments;
 

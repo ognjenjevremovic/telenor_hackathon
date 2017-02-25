@@ -33,9 +33,9 @@ function pingWatson(textMessage) {
         conversation
             .message(payload, (err, data) => {
                 if (err) return reject(err);
-                return resolve(
-                    filterResponse(data)
-                );
+
+                let response = filterResponse(data);
+                return resolve(response);
             });
     });
 }
