@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 
 
 //  Register the routes
-app.use('/webhook', require(path.join(__dirname, 'routes', 'webook')));
+app.use('/webhook', require(path.join(__dirname, 'routes', 'webhook')));
 
 
 //  Open the socket
