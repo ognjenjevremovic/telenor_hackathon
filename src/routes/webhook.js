@@ -14,7 +14,7 @@ const returnRespose = require(path.join(__dirname, '../', 'helpers', 'returnResp
 const pingWatson = require(path.join(__dirname, '../', 'helpers', 'pingWatson'));
 
 //  Watson convo config
-const { USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
+const { USER_NAME, USER_PASS, WORKSPACE_ID, ACCESS_TOKEN } = process.env;
 
 
 //  Facebook AUTH
