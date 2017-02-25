@@ -79,11 +79,14 @@ function contactWatson(event) {
 
     pingWatson(messageText)
         .then(({intent, entities}) => {
+
             console.log(intent, entities);
 
-            let messageData = factory.factory(senderId, intent, entities);
+            factory.factory(senderId, intent, entities, (messageData) => {
 
-            facebookApi.send(messageData);
+                facebookApi.send(messageData);
+
+            });
 
         })
         .catch((err) => {
