@@ -3,7 +3,7 @@ module.exports = (responseFromWatson) => {
     //  All the intents
     const { intents } = responseFromWatson;
     // //  All the entities
-    const { entites } = responseFromWatson;
+    const { entities } = responseFromWatson;
 
     //  Take the highest matching intent
     const intent = intents.sort((first, second) => {
@@ -14,6 +14,6 @@ module.exports = (responseFromWatson) => {
     //  Return the object of intent and entities
     return {
         intent: intent.intent,
-        entities: entites || []
+        entities: entities || []
     };
 };
