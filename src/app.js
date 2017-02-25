@@ -7,6 +7,10 @@ const path = require('path');
 
 const app = express();
 
+const TelenorAPIClient = require(__dirname + '/lib/TelenorAPIClient');
+
+new TelenorAPIClient();
+
 //  Register the env vars
 env.config();
 
