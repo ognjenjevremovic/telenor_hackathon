@@ -107,7 +107,7 @@ function contactWatson(event) {
         .then(({intent, entities, watsonMsg }) => {
             
             let factoryFound = factory.factory(senderId, intent, entities, (messageData) => {
-            
+                console.log('uso sam!');
                 facebookApi.send(messageData);
 
             });
