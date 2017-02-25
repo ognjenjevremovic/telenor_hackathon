@@ -1,0 +1,25 @@
+{
+  "name": "telenor_hackathon",
+  "version": "0.0.1",
+  "description": "Telenor hackathon, messanger bot",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ognjenjevremovic/telenor_hackathon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ognjenjevremovic/telenor_hackathon/issues"
+  },
+  "homepage": "https://github.com/ognjenjevremovic/telenor_hackathon#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "morgan": "^1.8.1"
+  }
+}
