@@ -54,30 +54,30 @@ router.post('/', function (req, res) {
             entry.messaging.forEach(function (event) {
 
                 let senderId = event.sender.id;
-                
-                if (event.message) {
-                    //  If without postback (not buttons clicked) - contact watson
-                    if(!event.postback) return contactWatson(event);
 
+                if(event.postback && event.postback.payload) {
                     //  postback present - contact Telenor api
                     let payload;
                     try {
                         payload = JSON.parse(event.postback.payload);
                     }
                     catch (err) {
-                        console.log(`
-                            Error:
-                            ${err}
-                        `);
+                        console.log(`Error`);
                         return;
                     }
 
                     //  Send the response back to facebook
-                    console.log(payload);
-                    if(payload) {
-                        factory.factory(senderId, payload.type, payload.entities, (messageData) => {
-                            facebookApi.send(messageData);
-                        });
+                    factory.factory(senderId, payload.type, payload.entities, (messageData) => {
+                        facebookApi.send(messageData);
+                    });
+                    
+                    return;
+                }
+                
+                if (event.message) {
+                    //  If without postback (not buttons clicked) - contact watson
+                    if(typeof event.postback === 'undefined' || (event.postback && !event.postback.payload)) {
+                         return contactWatson(event);
                     }
 
                 } else {
@@ -104,14 +104,17 @@ function contactWatson(event) {
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
-        .then(({intent, entities}) => {
-
-            factory.factory(senderId, intent, entities, (messageData) => {
-
+        .then(({intent, entities, watsonMsg }) => {
+            
+            let factoryFound = factory.factory(senderId, intent, entities, (messageData) => {
+            
                 facebookApi.send(messageData);
 
             });
 
+            if (factoryFound === null) {
+                facebookApi.send(FacebookMessageAPI.getTextMessageData(senderId, watsonMsg));
+            }
         })
         .catch((err) => {
 
