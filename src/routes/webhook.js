@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const {  }
-
 router.get('/', (req, res) => {
     if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === 'alexander') {
         console.log("Validating webhook");
