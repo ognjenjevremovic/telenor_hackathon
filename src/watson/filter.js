@@ -1,7 +1,4 @@
 module.exports = (responseFromWatson) => {
-
-    console.log(responseFromWatson);
-
     //  All the response body fields
     const { entities, intents, output } = responseFromWatson;
 

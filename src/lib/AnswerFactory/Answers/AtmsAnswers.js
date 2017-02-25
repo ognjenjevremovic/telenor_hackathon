@@ -80,7 +80,7 @@ class AtmsAnswers extends AnswerEntity
     getAtmInCity(recipientId, cityName, callback)
     {
 
-        this.telenorApi.getAllCities((error, data) => {
+        this.telenorApi.getATMs((error, data) => {
 
             if (error) {
 
@@ -90,51 +90,52 @@ class AtmsAnswers extends AnswerEntity
 
             }
 
-            let cityId = null;
+            // let cityId = null;
 
             let matchRegex = new RegExp(cityName, 'i');
+            let atms = [];
 
             (data && data.data instanceof Array ? data.data : []).map((cityData) => {
 
                 let name = cityData.attributes.name;
 
-                if (null === name.match(matchRegex)) {
-
-                    return;
-
+                if (name.match(matchRegex) && atms.length <= 10) {
+                    atms.push((atm.attributes.address + ', ' + atm.attributes.postCode).replace('<br>', ''));
                 }
 
-                cityId = cityData.id;
+                // cityId = cityData.id;
 
-                this.telenorApi.getAtmInCity(cityId, (error, data) => {
+                // this.telenorApi.getAtmInCity(cityId, (error, data) => {
 
-                    if (error) {
+                //     if (error) {
 
-                        callback(FacebookMessageAPI.getTextMessageData(recipientId, 'Our service is currently offline.'));
+                //         callback(FacebookMessageAPI.getTextMessageData(recipientId, 'Our service is currently offline.'));
 
-                        return;
+                //         return;
 
-                    }
+                //     }
 
-                    let responseData = [];
+                //     let responseData = [];
 
-                    (data && data.data instanceof Array ? data.data : []).map((atm) => {
+                //     (data && data.data instanceof Array ? data.data : []).map((atm) => {
 
-                        if (10 === responseData.length) {
+                //         if (10 === responseData.length) {
 
-                            return;
+                //             return;
 
-                        }
+                //         }
 
-                        responseData.push((atm.attributes.address + ', ' + atm.attributes.postCode).replace('<br>', ''));
+                //         responseData.push((atm.attributes.address + ', ' + atm.attributes.postCode).replace('<br>', ''));
 
-                    });
+                //     });
 
-                    callback( FacebookMessageAPI.getTextMessageData(recipientId, responseData.join("\n")) );
+                // });
 
-                });
+
 
             });
+
+            callback( FacebookMessageAPI.getTextMessageData(recipientId, atms.join("\n")) );
 
         });
 
