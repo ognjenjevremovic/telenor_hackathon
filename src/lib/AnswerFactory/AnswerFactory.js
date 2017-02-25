@@ -30,11 +30,12 @@ class AnswerFactory
      * Matches answer factory by intent and executes it.
      * Returns object prepared and ready to be sent via FacebookMessageAPI.send
      *
+     * @param {Number} recipientId
      * @param {String} intent
      * @param {Object[]} entities
      * @return {Object}
      */
-    factory(intent, entities)
+    factory(recipientId, intent, entities)
     {
 
         // Clone data so we don't loose them as there is only one instance of answers factory  :)
@@ -54,7 +55,7 @@ class AnswerFactory
 
             }
 
-            return answer.factory(entities);
+            return answer.factory(recipientId, entities);
 
         })(answerFactories.shift());
 

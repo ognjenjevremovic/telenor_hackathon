@@ -21,7 +21,7 @@ class FacebookButton
 
         this[_fieldType] = type;
 
-        this[_fieldValue] = value;
+        this[_fieldValue] = typeof value === 'string' ? value : JSON.stringify(value);
 
     }
 
@@ -94,10 +94,10 @@ class FacebookUrlButton extends FacebookButton
 class FacebookWebHookButton extends FacebookButton
 {
 
-    constructor(title, hookUrl)
+    constructor(title, hookData)
     {
 
-        super(title, 'postback', JSON.stringify(hookUrl));
+        super(title, 'postback', hookData);
 
     }
 

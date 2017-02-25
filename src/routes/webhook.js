@@ -3,6 +3,8 @@ const express = require('express');
 const request = require('request');
 const path = require('path');
 const Conversation = require('watson-developer-cloud/conversation/v1'); //  watson sdk
+const FacebookMessageAPI = require(path.join(__dirname, '..', 'lib', 'FacebookMessage', 'FacebookMessageAPI'));
+
 
 const AnswerFactory = require('../lib/AnswerFactory/AnswerFactory');
 const factory = new AnswerFactory();
@@ -16,6 +18,7 @@ const pingWatson = require(path.join(__dirname, '../', 'watson', 'request'));
 //  Watson convo config
 const { USER_NAME, USER_PASS, WORKSPACE_ID, ACCESS_TOKEN } = process.env;
 
+let facebookApi = new FacebookMessageAPI(ACCESS_TOKEN);
 
 //  Facebook AUTH
 router.get('/', (req, res) => {
@@ -77,7 +80,11 @@ function contactWatson(event) {
     pingWatson(messageText)
         .then(({intent, entities}) => {
             console.log(intent, entities);
-            console.log(factory.factory(senderId, intent, entities));
+
+            let messageData = factory.factory(senderId, intent, entities);
+
+            facebookApi.send(messageData);
+
         })
         .catch((err) => {
 

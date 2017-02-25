@@ -20,9 +20,10 @@ class AnswerEntity
      *
      * Abstract methods (MUST BE OVERRIDEN IN CHILD CLASS)
      *
+     * @param {Number} recipientId
      * @param {Object[]} entities
      */
-    factory(entities) {}
+    factory(recipientId, entities, callback) {}
 
     /**
      *
