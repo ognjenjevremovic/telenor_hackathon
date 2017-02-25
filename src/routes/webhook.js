@@ -5,7 +5,6 @@ const path = require('path');
 const Conversation = require('watson-developer-cloud/conversation/v1'); //  watson sdk
 
 const AnswerFactory = require('../lib/AnswerFactory/AnswerFactory');
-
 const factory = new AnswerFactory();
 
 //  Router
@@ -77,9 +76,9 @@ function contactWatson(event) {
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
-        .then((data) => {
-            console.log(data);
-        });
+        .then(({intent, entities}) => {
+            console.log(factory.factory(intent, entities));
+        })
 }
 
 

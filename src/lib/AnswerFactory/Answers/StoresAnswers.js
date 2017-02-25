@@ -16,6 +16,10 @@ class StoresAnswers extends AnswerEntity
     {
 
         console.log('COA CAR');
+        return [
+            {name: 'Aca'},
+            {name: 'Ognjen'}
+        ];
 
         // Dugmice
 
