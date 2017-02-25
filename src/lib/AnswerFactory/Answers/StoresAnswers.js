@@ -129,7 +129,7 @@ class StoresAnswers extends AnswerEntity
 
                         }
 
-                        responseData.push(store.attributes.address + ', ' + store.attributes.postCode);
+                        responseData.push((store.attributes.address + ', ' + store.attributes.postCode).replace('<br>', ''));
 
                     });
 
