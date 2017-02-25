@@ -57,7 +57,10 @@ router.post('/', function (req, res) {
                 
                 if (event.message) {
                     //  If without postback (not buttons clicked) - contact watson
-                    if(typeof event.postback === 'undefined' || (event.postback && !event.postback.payload)) return contactWatson(event);
+                    if(typeof event.postback === 'undefined' || (event.postback && !event.postback.payload)) {
+                        console.log('\nza watsona');
+                         return contactWatson(event);
+                    }
 
                     //  postback present - contact Telenor api
                     let payload = JSON.parse(event.postback.payload);
