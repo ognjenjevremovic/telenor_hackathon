@@ -33,6 +33,8 @@ class StoresAnswers extends AnswerEntity
 
         entities = entities instanceof Array ? entities : [];
 
+        console.log(entities);
+
         if (0 === entities.length) {
 
             callback(this.chooseStoreAnswer(recipientId));
