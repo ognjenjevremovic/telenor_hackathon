@@ -54,6 +54,27 @@ router.post('/', function (req, res) {
             entry.messaging.forEach(function (event) {
 
                 let senderId = event.sender.id;
+
+                if(event.postback && event.postback.payload) {
+                    //  postback present - contact Telenor api
+                    let payload;
+                    try {
+                        payload = JSON.parse(event.postback.payload);
+                    }
+                    catch (err) {
+                        console.log(`
+                            Error:
+                            ${err}
+                        `);
+                        return;
+                    }
+
+                    //  Send the response back to facebook
+                    factory.factory(senderId, payload.type, payload.entities, (messageData) => {
+                        facebookApi.send(messageData);
+                    });
+                    return;
+                }
                 
                 if (event.message) {
                     //  If without postback (not buttons clicked) - contact watson
@@ -61,24 +82,6 @@ router.post('/', function (req, res) {
                         console.log('\nza watsona');
                          return contactWatson(event);
                     }
-
-                    //  postback present - contact Telenor api
-                    let payload = JSON.parse(event.postback.payload);
-                    // try {
-                    //     payload = JSON.parse(event.postback.payload);
-                    // }
-                    // catch (err) {
-                    //     console.log(`
-                    //         Error:
-                    //         ${err}
-                    //     `);
-                    //     return;
-                    // }
-
-                    //  Send the response back to facebook
-                    factory.factory(senderId, payload.type, payload.entities, (messageData) => {
-                        facebookApi.send(messageData);
-                    });
 
                 } else {
                     console.log("Webhook received unknown event: ", event);
