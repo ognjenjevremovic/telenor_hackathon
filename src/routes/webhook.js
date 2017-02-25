@@ -36,7 +36,10 @@ router.get('/', (req, res) => {
 //  Webhook
 router.post('/', function (req, res) {
 
-    console.log('I got a request from FB');
+    console.log(`
+        I got a request from FB:
+        ${req.body}
+    `);
     
     //  Get events
     let messaging_events = req.body.entry[0].messaging
@@ -51,7 +54,7 @@ router.post('/', function (req, res) {
         if (event.message && event.message.text) {
             let text = event.message.text
             console.log('Im pinging Watson');
-            
+
             pingWatson(req.body)
                 .then((data) => {
                     // !!!
