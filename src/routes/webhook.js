@@ -52,10 +52,33 @@ router.post('/', function (req, res) {
 
             // Iterate over each messaging event
             entry.messaging.forEach(function (event) {
-                console.log(event.postback);
+
+                let senderId = event.sender.id;
                 
                 if (event.message) {
-                    contactWatson(event);
+                    //  If without postback (not buttons clicked) - contact watson
+                    if(!event.postback) contactWatson(event);
+
+                    //  postback present - contact Telenor api
+                    let payload;
+                    try {
+                        payload = JSON.parse(event.postback.payload);
+                    }
+                    catch (err) {
+                        console.log(`
+                            Error:
+                            ${err}
+                        `);
+                        return;
+                    }
+
+                    //  Send the response back to facebook
+                    if(payload) {
+                        factory.factory(senderId, payload.type, payload.entities, (messageData) => {
+                            facebookApi.send(messageData);
+                        });
+                    }
+
                 } else {
                     console.log("Webhook received unknown event: ", event);
                 }
