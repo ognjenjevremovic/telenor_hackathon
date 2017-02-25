@@ -68,6 +68,7 @@ router.post('/', function (req, res) {
                         `);
                         return;
                     }
+                    console.log('\n ne znam', payload);
 
                     //  Send the response back to facebook
                     factory.factory(senderId, payload.type, payload.entities, (messageData) => {
