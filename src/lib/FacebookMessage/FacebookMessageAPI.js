@@ -3,11 +3,7 @@ const request = require('request');
 
 const FacebookButton = require('./FacebookButtons').FacebookButton;
 
-// const SEND_API_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token=';
-
 const _fieldAccessToken = Symbol('accessToken');
-
-const _fieldSendApiUrl = Symbol('sendApiUrl');
 
 class FacebookMessageAPI
 {
@@ -29,7 +25,7 @@ class FacebookMessageAPI
      *
      * @param {Object} messageData
      */
-    sendMessage(messageData)
+    send(messageData)
     {
 
         request({

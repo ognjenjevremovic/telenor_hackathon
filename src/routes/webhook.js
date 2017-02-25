@@ -4,6 +4,10 @@ const request = require('request');
 const path = require('path');
 const Conversation = require('watson-developer-cloud/conversation/v1'); //  watson sdk
 
+const AnswerFactory = require('../lib/AnswerFactory/AnswerFactory');
+
+const factory = new AnswerFactory();
+
 //  Router
 const router = express.Router();
 
@@ -119,23 +123,9 @@ function receivedMessage(event) {
     }
 }
 
-const fbButtons = require(__dirname + '/../lib/FacebookMessage/FacebookButtons');
 
-const FacebookMessageAPI = require(__dirname + '/../lib/FacebookMessage/FacebookMessageAPI');
 
 function sendTextMessage(recipientId, messageText) {
-
-    let buttons = [
-        new fbButtons.FacebookWebHookButton('Web Hook Test', {data: 'to be', sent: true}),
-        new fbButtons.FacebookUrlButton('Url Test', 'www.google.com')
-    ];
-
-    let api = new FacebookMessageAPI(ACCESS_TOKEN);
-
-    api.sendMessage(
-        // FacebookMessageAPI.getButtonMessageData(recipientId, messageText, buttons)
-        FacebookMessageAPI.getTextMessageData(recipientId, messageText)
-    );
 
     // var messageData = {
     // recipient: {
