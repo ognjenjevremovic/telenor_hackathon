@@ -133,7 +133,7 @@ class StoresAnswers extends AnswerEntity
 
                     });
 
-                    callback( FacebookMessageAPI.getTextMessageData(recipientId, responseData.join('<br />')) );
+                    callback( FacebookMessageAPI.getTextMessageData(recipientId, responseData.join("\n")) );
 
                 });
 
