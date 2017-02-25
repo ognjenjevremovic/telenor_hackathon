@@ -28,10 +28,6 @@ function pingWatson(body) {
         // Ping the conversation service and return the response
         conversation
             .message(payload, (err, data) => {
-                console.log(`
-                    Watson returned:
-                    ${data}
-                `);
                 if (err) return reject(err);
                 return resolve(
                     updateMessage(data)
@@ -43,11 +39,6 @@ function pingWatson(body) {
 
 //  Get the Watson response
 function updateMessage(response) {
-    //  del
-    // console.log(`
-    //     I got:
-    //     ${response}
-    // `);
 
     //  return the output if it exist
     if (response.output) return response;

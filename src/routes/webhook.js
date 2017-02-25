@@ -35,25 +35,22 @@ router.get('/', (req, res) => {
 
 //  Webhook
 router.post('/', function (req, res) {
-
-    console.log(`
-        I got a request from FB:
-        ${req.body}
-    `);
     
     //  Get events
-    let messaging_events = req.body.entry[0].messaging
+    let messaging_events = req.body.entry[0].messaging;
 
     //  Itterate over events
     for (let i = 0; i < messaging_events.length; i++) {
         //  Get message and sender data
-        let event = req.body.entry[0].messaging[i]
-        let sender = event.sender.id
+        let event = req.body.entry[0].messaging[i];
+        let sender = event.sender.id;
 
         //  Message exists
         if (event.message && event.message.text) {
-            let text = event.message.text
-            console.log('Im pinging Watson');
+            let text = event.message.text;
+            console.log(`
+                The text is ${text}
+            `);
 
             pingWatson(req.body)
                 .then((data) => {
