@@ -57,7 +57,7 @@ router.post('/', function (req, res) {
                 
                 if (event.message) {
                     //  If without postback (not buttons clicked) - contact watson
-                    if(!event.postback) return contactWatson(event);
+                    if(event.postback && !event.postback.payload) return contactWatson(event);
 
                     //  postback present - contact Telenor api
                     let payload;
