@@ -4,7 +4,7 @@ const Conversation = require('watson-developer-cloud/conversation/v1'); // watso
 const request = require('request');
 
 //  Watson convo config
-const { USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
+const { USER_NAME, USER_PASS, WORKSPACE_ID, ACCESS_TOKEN } = process.env;
 
 //  Service wrapper
 var conversation = new Conversation({
@@ -31,6 +31,8 @@ router.get('/', (req, res) => {
     }
 });
 
+
+/*
 //  Messanger POST requests
 router.post('/', (req, res) => {
     //  Extract the request body
@@ -46,13 +48,36 @@ router.post('/', (req, res) => {
     // Ping the conversation service and return the response
     conversation
         .message(payload, (err, data) => {
-            if (err) return res
-                .status(err.code || 500)
-                .json(err);
+            if (err) {
+                return res
+                    .status(err.code || 500)
+                    .json(err);
+            }
             return res.json(
                 updateMessage(payload, data)
             );
         });
+
+
+        request({
+                url: 'https://graph.facebook.com/v2.6/me/messages',
+                qs: {
+                    access_token: ACCESS_TOKEN
+                },
+                method: 'POST',
+                json: {
+                    recipient: {
+                        id: recipientId
+                    },
+                    message: message,
+                }
+            }, function(error, response, body) {
+                if (error) {
+                    console.log('Error sending message: ', error);
+                } else if (response.body.error) {
+                    console.log('Error: ', response.body.error);
+                }
+            });
 
 });
 
@@ -78,7 +103,45 @@ function updateMessage(input, response) {
     //  Return the response
     return response;
 }
+*/
 
+app.post('/webhook/', function (req, res) {
+    let messaging_events = req.body.entry[0].messaging
+    for (let i = 0; i < messaging_events.length; i++) {
+        let event = req.body.entry[0].messaging[i]
+        let sender = event.sender.id
+        if (event.message && event.message.text) {
+            let text = event.message.text
+            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+        }
+    }
+    res.sendStatus(200)
+})
+
+function sendTextMessage(sender, text) {
+    let messageData = {
+        text:text
+    }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {
+            access_token:ACCESS_TOKEN
+        },
+        method: 'POST',
+        json: {
+            recipient: {
+                id:sender
+            },
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
 
 //  Export the module
 module.exports = router;
