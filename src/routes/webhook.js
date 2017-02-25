@@ -133,7 +133,8 @@ function sendTextMessage(recipientId, messageText) {
     let api = new FacebookMessageAPI(ACCESS_TOKEN);
 
     api.sendMessage(
-        FacebookMessageAPI.getButtonMessageData(recipientId, messageText, buttons)
+        // FacebookMessageAPI.getButtonMessageData(recipientId, messageText, buttons)
+        FacebookMessageAPI.getTextMessageData(recipientId, messageText)
     );
 
     // var messageData = {
