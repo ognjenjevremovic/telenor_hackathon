@@ -83,6 +83,7 @@ class AtmsAnswers extends AnswerEntity
         this.telenorApi.getATMs((error, data) => {
 
             if (error) {
+                console.log(error);
 
                 callback(FacebookMessageAPI.getTextMessageData(recipientId, 'Our service is currently offline.'));
 
