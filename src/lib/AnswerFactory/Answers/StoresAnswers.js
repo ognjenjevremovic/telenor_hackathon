@@ -117,6 +117,8 @@ class StoresAnswers extends AnswerEntity
 
                     });
 
+                    console.log(responseData.join("\n"));
+
                     callback(FacebookMessageAPI.getTextMessageData(recipientId, responseData.join("\n")));
 
                 });
