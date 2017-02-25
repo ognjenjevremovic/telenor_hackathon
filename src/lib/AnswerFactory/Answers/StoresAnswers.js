@@ -116,8 +116,8 @@ class StoresAnswers extends AnswerEntity
                         return store.attributes.address + ', ' + store.attributes.postCode + ' ' + store.attributes.city;
 
                     });
-//responseData.join("\n")
-                    callback( FacebookMessageAPI.getTextMessageData(recipientId, "Test") );
+
+                    callback( FacebookMessageAPI.getTextMessageData(recipientId, responseData.join('<br />')) );
 
                 });
 
