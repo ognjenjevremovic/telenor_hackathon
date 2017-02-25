@@ -13,7 +13,7 @@ module.exports = (responseFromWatson) => {
 
     //  Return the object of intent and entities
     return {
-        intent,
+        intent: intent.intent,
         entities: entites || []
     };
 };
