@@ -98,7 +98,7 @@ class AtmsAnswers extends AnswerEntity
 
             (data && data.data instanceof Array ? data.data : []).map((cityData) => {
 
-                let name = cityData.attributes.name;
+                let name = cityData.attributes.city;
 
                 if (name.match(matchRegex) && atms.length <= 10) {
                     atms.push((atm.attributes.address + ', ' + atm.attributes.postCode).replace('<br>', ''));
