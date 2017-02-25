@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-var Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
+const Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
+const request = require('request');
 
 //  Watson convo config
 const { USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
@@ -33,12 +34,13 @@ router.get('/', (req, res) => {
 //  Messanger POST requests
 router.post('/', (req, res) => {
     //  Extract the request body
-    const { body } = req;
+    const data = req.body;
+
     //  Make the payload
     const payload = {
         workspace_id: WORKSPACE_ID,
-        context: req.body.context || {},
-        input: req.body.input || {}
+        context: data.context || {},
+        input: data.input || {}
     }
 
     // Ping the conversation service and return the response
@@ -57,7 +59,7 @@ router.post('/', (req, res) => {
 //  Update the response text
 function updateMessage(input, response) {
     //  define the response text
-    var responseText;
+    var responseMessage;
     //  return the output if it exist
     if (response.output) return response;
     //  Set deff output
@@ -66,12 +68,12 @@ function updateMessage(input, response) {
     //  Check for the accuracy of the response
     if (response.intents && response.intents[0]) {
         const intent = response.intents[0];
-        if (intent.confidence >= 0.75) responseText = 'I understood your intent was ' + intent.intent;
-        else if (intent.confidence >= 0.5) responseText = 'I think your intent was ' + intent.intent;
-        else responseText = 'I did not understand your intent';
+        if (intent.confidence >= 0.75) responseMessage = 'I understood your intent was ' + intent.intent;
+        else if (intent.confidence >= 0.5) responseMessage = 'I think your intent was ' + intent.intent;
+        else responseMessage = 'I did not understand your intent';
     }
     //  Populate the response
-    response.output.text = responseText;
+    response.output.text = responseMessage;
 
     //  Return the response
     return response;
