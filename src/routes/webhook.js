@@ -68,19 +68,18 @@ router.post('/', function (req, res) {
                         `);
                         return;
                     }
-                    console.log('\n ne znam', payload);
 
                     //  Send the response back to facebook
                     factory.factory(senderId, payload.type, payload.entities, (messageData) => {
                         facebookApi.send(messageData);
                     });
+                    
                     return;
                 }
                 
                 if (event.message) {
                     //  If without postback (not buttons clicked) - contact watson
                     if(typeof event.postback === 'undefined' || (event.postback && !event.postback.payload)) {
-                        console.log('\nza watsona');
                          return contactWatson(event);
                     }
 
