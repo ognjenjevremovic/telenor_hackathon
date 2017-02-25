@@ -70,7 +70,9 @@ function contactWatson(event) {
     console.log(`
         Recieved message from the page!
     `);
-    var messageText = message.text;
+    // console.log(JSON.stringify(message.text));
+
+    var messageText = JSON.stringify(message.text);
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
