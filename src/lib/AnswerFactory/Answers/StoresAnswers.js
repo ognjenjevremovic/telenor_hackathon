@@ -26,6 +26,14 @@ class StoresAnswers extends AnswerEntity
 
     }
 
+    /**
+     *
+     * Decide which response should be send to user
+     *
+     * @param {Number} recipientId
+     * @param {Object[]} entities
+     * @param {Function} callback
+     */
     factory(recipientId, entities, callback)
     {
 
@@ -77,6 +85,14 @@ class StoresAnswers extends AnswerEntity
 
     }
 
+    /**
+     *
+     * Notify user with store addresses in certain city
+     *
+     * @param {Number} recipientId
+     * @param {String} cityName
+     * @param {Function} callback
+     */
     getStoreInCity(recipientId, cityName, callback)
     {
 
