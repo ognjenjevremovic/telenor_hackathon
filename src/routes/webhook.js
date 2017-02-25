@@ -54,12 +54,13 @@ router.post('/', function (req, res) {
 
             pingWatson(req.body)
                 .then((data) => {
-                    // !!!
-                    console.log(data);
+                    returnRespose();
+                    return res.status(200);
                 })
                 .catch((err) => {
                     //  error from watson
                     console.log(err);
+                    return res.status(500);
                 });
         }
 
