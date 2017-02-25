@@ -1,4 +1,3 @@
-const PhonesAnswers = require('./Answers/PhonesAnswer');
 
 const StoresAnswers = require('./Answers/StoresAnswers');
 
@@ -16,8 +15,6 @@ class AnswerFactory
 
         /** Registered answer factories */
         this.answerFactories = [
-
-            new PhonesAnswers(), // Factory that provides answers regarding smart phones
 
             new StoresAnswers() // Factory that provides answers regarding stores
 
