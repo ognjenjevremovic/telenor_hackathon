@@ -62,10 +62,7 @@ router.post('/', function (req, res) {
                         payload = JSON.parse(event.postback.payload);
                     }
                     catch (err) {
-                        console.log(`
-                            Error:
-                            ${err}
-                        `);
+                        console.log(`Error`);
                         return;
                     }
 
