@@ -96,9 +96,9 @@ class AtmsAnswers extends AnswerEntity
             let matchRegex = new RegExp(cityName, 'i');
             let atms = [];
 
-            (data && data.data instanceof Array ? data.data : []).map((cityData) => {
+            (data && data.data instanceof Array ? data.data : []).map((atm) => {
 
-                let name = cityData.atributes.city;
+                let name = atm.atributes.city;
 
                 if (name.match(matchRegex) && atms.length <= 10) {
                     atms.push((atm.atributes.address + ', ' + atm.atributes.postCode).replace('<br>', ''));
