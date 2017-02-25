@@ -33,9 +33,10 @@ class AnswerFactory
      * @param {Number} recipientId
      * @param {String} intent
      * @param {Object[]} entities
+     * @param {Function} callback
      * @return {Object}
      */
-    factory(recipientId, intent, entities)
+    factory(recipientId, intent, entities, callback)
     {
 
         // Clone data so we don't loose them as there is only one instance of answers factory  :)
@@ -55,7 +56,7 @@ class AnswerFactory
 
             }
 
-            return answer.factory(recipientId, entities);
+            return answer.factory(recipientId, entities, callback);
 
         })(answerFactories.shift());
 
