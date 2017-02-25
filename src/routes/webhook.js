@@ -39,6 +39,8 @@ router.post('/', function (req, res) {
     //  Extract the request body
     var data = req.body;
 
+    console.log(data);
+
     // Make sure this is a page subscription
     if (data.object === 'page') {
 

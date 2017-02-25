@@ -20,7 +20,7 @@ function pingWatson(textMessage) {
             version_date: '2016-10-21',
             version: 'v1'
         });
-        console.log(payload);
+
         //  Make the payload
         const payload = {
             workspace_id: WORKSPACE_ID,
