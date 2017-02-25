@@ -1,6 +1,7 @@
 
 const request = require('request');
 
+// All available Telenor API routes
 const SEARCH_TERM = 'http://www.telenor.rs/hackathon/lng/{lang}/segment/{segment}/search/{term}/';
 
 const TARIFF_PACKAGES = 'http://www.telenor.rs/webshop/hackathon/tariff-packages/';
