@@ -32,6 +32,7 @@ function pingWatson(textMessage) {
         // Ping the conversation service and return the response
         conversation
             .message(payload, (err, data) => {
+                console.log(data);
                 if (err) return reject(err);
                 return resolve(
                     filterResponse(data)
