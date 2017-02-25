@@ -113,13 +113,11 @@ class StoresAnswers extends AnswerEntity
 
                     let responseData = (data && data.data instanceof Array ? data.data : []).map((store) => {
 
-                        return store.attributes.address + ', ' + store.attributes.postalCode + ' ' + store.attributes.city;
+                        return store.attributes.address + ', ' + store.attributes.postCode + ' ' + store.attributes.city;
 
                     });
-
-                    console.log(responseData.join("\n"));
-
-                    callback(FacebookMessageAPI.getTextMessageData(recipientId, responseData.join("\n")));
+//responseData.join("\n")
+                    callback( FacebookMessageAPI.getTextMessageData(recipientId, "Test") );
 
                 });
 
