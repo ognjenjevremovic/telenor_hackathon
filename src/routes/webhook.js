@@ -58,7 +58,7 @@ router.post('/', function (req, res) {
         });
 
         //  Return the status code of 200
-        res.sendStatus(200);
+        return res.sendStatus(200);
     }
 });
 
@@ -84,13 +84,6 @@ function contactWatson(event) {
 
         });
 }
-
-
-
-function sendTextMessage(recipientId, messageText) {
-
-}
-
 
 
 //  Export the module
