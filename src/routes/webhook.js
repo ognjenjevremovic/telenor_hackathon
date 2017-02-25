@@ -3,7 +3,7 @@ const router = express.Router();
 var Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
 
 //  Watson convo config
-{ USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
+const { USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
 
 //  Service wrapper
 var conversation = new Conversation({
