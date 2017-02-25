@@ -70,8 +70,6 @@ function contactWatson(event) {
     var senderId = event.sender.id;
     var message = event.message;
 
-    console.log(event);
-
     console.log(`
         Recieved message from the page!
     `);
