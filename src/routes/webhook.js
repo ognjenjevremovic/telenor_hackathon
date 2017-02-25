@@ -1,19 +1,20 @@
+//  Dependancies
 const express = require('express');
-const router = express.Router();
-const Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
 const request = require('request');
+const path = require('path');
+const Conversation = require('watson-developer-cloud/conversation/v1'); //  watson sdk
+
+//  Router
+const router = express.Router();
+
+
+//  Send response back to facebook
+const returnRespose = require(path.join(__dirname, '../', 'helpers', 'returnResponse'));
+//  Send request to Watson
+const pingWatson = require(path.join(__dirname, '../', 'helpers', 'pingWatson'));
 
 //  Watson convo config
-const { USER_NAME, USER_PASS, WORKSPACE_ID, ACCESS_TOKEN } = process.env;
-
-//  Service wrapper
-var conversation = new Conversation({
-    username: USER_NAME,
-    password: USER_PASS,
-    url: 'https://gateway.watsonplatform.net/conversation/api',
-    version_date: '2016-10-21',
-    version: 'v1'
-});
+const { USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
 
 
 //  Facebook AUTH
@@ -32,120 +33,127 @@ router.get('/', (req, res) => {
 });
 
 
-/*
-//  Messanger POST requests
-router.post('/', (req, res) => {
+//  Webhook
+router.post('/', function (req, res) {
+
     //  Extract the request body
-    const data = req.body;
+    var data = req.body;
 
-    //  Make the payload
-    const payload = {
-        workspace_id: WORKSPACE_ID,
-        context: data.context || {},
-        input: data.input || {}
-    }
+    // Make sure this is a page subscription
+    if (data.object === 'page') {
 
-    // Ping the conversation service and return the response
-    conversation
-        .message(payload, (err, data) => {
-            if (err) {
-                return res
-                    .status(err.code || 500)
-                    .json(err);
-            }
-            return res.json(
-                updateMessage(payload, data)
-            );
-        });
+        // Iterate over each entry - there may be multiple if batched
+        data.entry.forEach(function (entry) {
+            var pageID = entry.id;
+            var timeOfEvent = entry.time;
 
-
-        request({
-                url: 'https://graph.facebook.com/v2.6/me/messages',
-                qs: {
-                    access_token: ACCESS_TOKEN
-                },
-                method: 'POST',
-                json: {
-                    recipient: {
-                        id: recipientId
-                    },
-                    message: message,
-                }
-            }, function(error, response, body) {
-                if (error) {
-                    console.log('Error sending message: ', error);
-                } else if (response.body.error) {
-                    console.log('Error: ', response.body.error);
+            // Iterate over each messaging event
+            entry.messaging.forEach(function (event) {
+                if (event.message) {
+                    receivedMessage(event);
+                } else {
+                    console.log("Webhook received unknown event: ", event);
                 }
             });
+        });
 
+        //  Return the status code of 200
+        res.sendStatus(200);
+    }
+
+
+    /*
+    //  Get events
+    let messaging_events = req.body.entry[0].messaging;
+
+    //  Itterate over events
+    for (let i = 0; i < messaging_events.length; i++) {
+        //  Get message and sender data
+        let event = req.body.entry[0].messaging[i];
+        let sender = event.sender.id;
+
+        //  Message exists
+        if (event.message && event.message.text) {
+            let text = event.message.text;
+            console.log(`
+                The text is ${text}
+            `);
+
+            pingWatson(req.body)
+                .then((data) => {
+                    returnRespose();
+                    return res.status(200);
+                })
+                .catch((err) => {
+                    //  error from watson
+                    console.log(err);
+                    return res.status(500);
+                });
+        }
+
+    }
+    */
 });
 
-//  Update the response text
-function updateMessage(input, response) {
-    //  define the response text
-    var responseMessage;
-    //  return the output if it exist
-    if (response.output) return response;
-    //  Set deff output
-    response.output = {};
 
-    //  Check for the accuracy of the response
-    if (response.intents && response.intents[0]) {
-        const intent = response.intents[0];
-        if (intent.confidence >= 0.75) responseMessage = 'I understood your intent was ' + intent.intent;
-        else if (intent.confidence >= 0.5) responseMessage = 'I think your intent was ' + intent.intent;
-        else responseMessage = 'I did not understand your intent';
+function receivedMessage(event) {
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
+    var timeOfMessage = event.timestamp;
+    var message = event.message;
+
+    console.log("Received message for user %d and page %d at %d with message:",
+        senderID, recipientID, timeOfMessage);
+    console.log(JSON.stringify(message));
+
+    var messageId = message.mid;
+
+    var messageText = message.text;
+    var messageAttachments = message.attachments;
+
+    if (messageText) {
+
+        sendTextMessage(senderID, messageText);
+    } else if (messageAttachments) {
+        sendTextMessage(senderID, "Message with attachment received");
     }
-    //  Populate the response
-    response.output.text = responseMessage;
-
-    //  Return the response
-    return response;
 }
-*/
 
-router.post('/', function (req, res) {
-    let messaging_events = req.body.entry[0].messaging
-
-    for (let i = 0; i < messaging_events.length; i++) {
-        let event = req.body.entry[0].messaging[i]
-        let sender = event.sender.id
-        
-        if (event.message && event.message.text) {
-            let text = event.message.text
-            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-        }
-
+function sendTextMessage(recipientId, messageText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText
     }
+  };
 
-    res.sendStatus(200)
-})
-
-function sendTextMessage(sender, text) {
-    let messageData = {
-        text: text
-    }
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {
-            access_token: ACCESS_TOKEN
-        },
-        method: 'POST',
-        json: {
-            recipient: {
-                id: sender
-            },
-            message: messageData,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
+  callSendAPI(messageData);
 }
+
+function callSendAPI(messageData) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token: ACCESS_TOKEN },
+    method: 'POST',
+    json: messageData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+
+      console.log("Successfully sent generic message with id %s to recipient %s", 
+        messageId, recipientId);
+    } else {
+      console.error("Unable to send message.");
+      console.error(response);
+      console.error(error);
+    }
+  });  
+}
+
 
 //  Export the module
 module.exports = router;
