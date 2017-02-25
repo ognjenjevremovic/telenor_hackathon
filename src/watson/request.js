@@ -20,7 +20,7 @@ function pingWatson(textMessage) {
             version_date: '2016-10-21',
             version: 'v1'
         });
-
+        console.log(payload);
         //  Make the payload
         const payload = {
             workspace_id: WORKSPACE_ID,
@@ -32,7 +32,6 @@ function pingWatson(textMessage) {
         // Ping the conversation service and return the response
         conversation
             .message(payload, (err, data) => {
-                console.log(err, data);
                 if (err) return reject(err);
                 return resolve(
                     filterResponse(data)
