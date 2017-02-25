@@ -62,10 +62,6 @@ router.post('/', function (req, res) {
                     //  postback present - contact Telenor api
                     let payload;
                     try {
-                        console.log(`
-                            Here:
-                            ${event.postback}
-                        `);
                         payload = JSON.parse(event.postback.payload);
                     }
                     catch (err) {
@@ -78,6 +74,7 @@ router.post('/', function (req, res) {
 
                     //  Send the response back to facebook
                     if(payload) {
+                        console.log('Ulazi u id');
                         factory.factory(senderId, payload.type, payload.entities, (messageData) => {
                             facebookApi.send(messageData);
                         });
