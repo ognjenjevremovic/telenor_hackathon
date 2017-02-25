@@ -73,7 +73,7 @@ function contactWatson(event) {
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
-        .then((err, data) => {
+        .then((data) => {
             console.log(data);
         });
 }
