@@ -1,7 +1,10 @@
 
 const StoresAnswers = require('./Answers/StoresAnswers');
 
+const AtmsAnswers = require('./Answers/AtmsAnswers');
+
 const AnswerEntity = require('./AnswerEntity');
+
 
 /**
  * Answer factory is used to easy scale answer providers.
@@ -16,6 +19,7 @@ class AnswerFactory
         /** Registered answer factories */
         this.answerFactories = [
 
+            new AtmsAnswers(),
             new StoresAnswers() // Factory that provides answers regarding stores
 
         ];
