@@ -12,6 +12,8 @@ const UrlButton = FacebookButtons.FacebookUrlButton;
 
 const WebHookButton = FacebookButtons.FacebookWebHookButton;
 
+
+
 class StoresAnswers extends AnswerEntity
 {
 
@@ -19,6 +21,8 @@ class StoresAnswers extends AnswerEntity
     {
 
         super('store');
+
+        this.telenorApi = new TelenorAPIClient();
 
     }
 
@@ -31,13 +35,20 @@ class StoresAnswers extends AnswerEntity
 
         }
 
-        entities = entities instanceof Array ? entities : [];
+        let cities = (entities instanceof Array ? entities : []).filter((entity) => {
 
-        console.log(entities);
+            return 'cities' === entity.entity;
 
-        if (0 === entities.length) {
+        });
+
+        // Tell client to choose city
+        if (0 === cities.length) {
 
             callback(this.chooseStoreAnswer(recipientId));
+
+        } else if (1 === cities.length) {
+
+            this.getStoreInCity(recipientId, cities[0].value, callback);
 
         }
 
@@ -56,8 +67,42 @@ class StoresAnswers extends AnswerEntity
 
         return FacebookMessageAPI.getTextMessageData(
             recipientId,
-            'You are looking for stores. In what city? e.g. Stores in Belgrade'
+            "You are looking for stores. In what city?\ne.g. Stores in Belgrade"
         );
+
+    }
+
+    getStoreInCity(recipientId, cityName, callback)
+    {
+
+        this.telenorApi.getAllCities((error, data) => {
+
+            if (error) {
+
+                callback(FacebookMessageAPI.getTextMessageData(recipientId, 'Our service is currently offline.'));
+
+                return;
+
+            }
+
+            let cityId = null;
+
+            let matchRegex = new RegExp(cityName, 'i');
+
+            (data && data.data instanceof Array ? data.data : []).map((cityData) => {
+
+                let name = cityData.attributes.name;
+
+                console.log(name);
+
+                if (name.match(cityName)) {
+                    // city = cityData
+                }
+
+            });
+            callback(data.data);
+
+        });
 
     }
 
