@@ -53,6 +53,7 @@ router.post('/', function (req, res) {
             // Iterate over each messaging event
             entry.messaging.forEach(function (event) {
                 console.log(event.postback);
+                
                 if (event.message) {
                     contactWatson(event);
                 } else {
