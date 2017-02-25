@@ -65,10 +65,18 @@ class StoresAnswers extends AnswerEntity
     chooseStoreAnswer(recipientId)
     {
 
-        return FacebookMessageAPI.getTextMessageData(
+        return FacebookMessageAPI.getButtonMessageData(
             recipientId,
-            "You are looking for stores. In what city?\ne.g. Stores in Belgrade"
+            'Test',
+            [
+                new WebHookButton('Test', {name: 'Coa'});
+            ]
         );
+
+        // return FacebookMessageAPI.getTextMessageData(
+        //     recipientId,
+        //     "You are looking for stores. In what city?\ne.g. Stores in Belgrade"
+        // );
 
     }
 
