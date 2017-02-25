@@ -10,7 +10,7 @@ const app = express();
 //  Register the env vars
 env.config();
 
-const { PORT, APP_ID, ACCESS_TOKEN, APP_SECRET } = process.env;
+const { PORT } = process.env;
 
 //  Middlewares
 app.use(bodyParser.json());
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('dev'));
 
 
-//  Register the routes
+//  Register the routesc
 app.use('/webhook', require(path.join(__dirname, 'routes', 'webhook')));
 
 
