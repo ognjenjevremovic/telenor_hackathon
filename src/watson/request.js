@@ -28,12 +28,12 @@ function pingWatson(textMessage) {
                 text: textMessage
             }
         };
+        console.log(payload);
 
         // Ping the conversation service and return the response
         conversation
             .message(payload, (err, data) => {
                 if (err) return reject(err);
-                console.log('cao coa');
                 return resolve(
                     filterResponse(data)
                 );
