@@ -6,7 +6,7 @@ const { USER_NAME, USER_PASS, WORKSPACE_ID } = process.env;
 
 //  Send request to Watson service
 function pingWatson(body) {
-    //  
+    //  Returns a promise
     return new Promise((resolve, reject) => {
 
         //  Make an instance of a conversation
@@ -28,6 +28,7 @@ function pingWatson(body) {
         // Ping the conversation service and return the response
         conversation
             .message(payload, (err, data) => {
+                console.log(data);
                 if (err) return reject(err);
                 return resolve(
                     updateMessage(data)
