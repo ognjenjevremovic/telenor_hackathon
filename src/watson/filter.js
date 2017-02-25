@@ -1,5 +1,5 @@
 module.exports = (responseFromWatson) => {
-    
+
     //  All the intents
     const { intents } = responseFromWatson;
     // //  All the entities
@@ -13,5 +13,4 @@ module.exports = (responseFromWatson) => {
 
     //  Return the object of intent and entities
     return { intent, entites };
-
 };

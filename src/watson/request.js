@@ -28,7 +28,6 @@ function pingWatson(textMessage) {
                 text: textMessage
             }
         };
-        console.log(payload);
 
         // Ping the conversation service and return the response
         conversation

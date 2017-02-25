@@ -76,12 +76,12 @@ function contactWatson(event) {
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
-        .then(({intent, entities}) => {
-            console.log(intent, entities);
-            console.log(factory.factory(intent, entities));
+        .then((data) => {
+            console.log(data.intent, data.entities);
+            console.log(factory.factory(data.intent, data.entities));
         })
         .catch((err) => {
-            
+
         });
 }
 
@@ -89,16 +89,6 @@ function contactWatson(event) {
 
 function sendTextMessage(recipientId, messageText) {
 
-    // var messageData = {
-    // recipient: {
-    //   id: recipientId
-    // },
-    // message: {
-    //   text: messageText
-    // }
-  // };
-
-  // callSendAPI(messageData);
 }
 
 
