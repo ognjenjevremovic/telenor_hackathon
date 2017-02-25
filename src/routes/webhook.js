@@ -77,7 +77,7 @@ function contactWatson(event) {
     pingWatson(messageText)
         .then(({intent, entities}) => {
             console.log(intent, entities);
-            console.log(factory.factory(intent, entities));
+            console.log(factory.factory(senderId, intent, entities));
         })
         .catch((err) => {
 
