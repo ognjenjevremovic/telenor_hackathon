@@ -67,7 +67,7 @@ router.post('/', function (req, res) {
 
 
 function contactWatson(event) {
-    var senderID = event.sender.id;
+    var senderId = event.sender.id;
     var message = event.message;
 
     console.log(`
