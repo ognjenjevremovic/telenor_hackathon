@@ -30,7 +30,5 @@ app.use('/webhook', require(path.join(__dirname, 'routes', 'webhook')));
 app.listen(process.env.PORT, () => {
     console.log(`
         Server runnin and listening on port : ${PORT}
-
-        Go to : http://localhost:${PORT}
     `);
 });
