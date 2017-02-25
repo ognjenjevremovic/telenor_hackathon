@@ -39,8 +39,6 @@ router.post('/', function (req, res) {
     //  Extract the request body
     var data = req.body;
 
-    console.log(data);
-
     // Make sure this is a page subscription
     if (data.object === 'page') {
 
@@ -48,6 +46,8 @@ router.post('/', function (req, res) {
         data.entry.forEach(function (entry) {
             var pageID = entry.id;
             var timeOfEvent = entry.time;
+
+            console.log(entry.messaging);
 
             // Iterate over each messaging event
             entry.messaging.forEach(function (event) {
