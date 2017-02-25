@@ -91,8 +91,6 @@ class AtmsAnswers extends AnswerEntity
 
             }
 
-            // let cityId = null;
-
             let matchRegex = new RegExp(cityName, 'i');
             let atms = [];
 
@@ -103,36 +101,6 @@ class AtmsAnswers extends AnswerEntity
                 if (name.match(matchRegex) && atms.length <= 10) {
                     atms.push((atm.atributes.address + ', ' + atm.atributes.postCode).replace('<br>', ''));
                 }
-
-                // cityId = cityData.id;
-
-                // this.telenorApi.getAtmInCity(cityId, (error, data) => {
-
-                //     if (error) {
-
-                //         callback(FacebookMessageAPI.getTextMessageData(recipientId, 'Our service is currently offline.'));
-
-                //         return;
-
-                //     }
-
-                //     let responseData = [];
-
-                //     (data && data.data instanceof Array ? data.data : []).map((atm) => {
-
-                //         if (10 === responseData.length) {
-
-                //             return;
-
-                //         }
-
-                //         responseData.push((atm.attributes.address + ', ' + atm.attributes.postCode).replace('<br>', ''));
-
-                //     });
-
-                // });
-
-
 
             });
 
