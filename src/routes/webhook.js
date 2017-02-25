@@ -60,17 +60,17 @@ router.post('/', function (req, res) {
                     if(typeof event.postback === 'undefined' || (event.postback && !event.postback.payload)) return contactWatson(event);
 
                     //  postback present - contact Telenor api
-                    let payload;
-                    try {
-                        payload = JSON.parse(event.postback.payload);
-                    }
-                    catch (err) {
-                        console.log(`
-                            Error:
-                            ${err}
-                        `);
-                        return;
-                    }
+                    let payload = JSON.parse(event.postback.payload);
+                    // try {
+                    //     payload = JSON.parse(event.postback.payload);
+                    // }
+                    // catch (err) {
+                    //     console.log(`
+                    //         Error:
+                    //         ${err}
+                    //     `);
+                    //     return;
+                    // }
 
                     //  Send the response back to facebook
                     factory.factory(senderId, payload.type, payload.entities, (messageData) => {
