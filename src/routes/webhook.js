@@ -31,9 +31,9 @@ router.get('/', (req, res) => {
 });
 
 //  Messanger POST requests
-router.post('/', (request, response) => {
+router.post('/', (req, res) => {
     //  Extract the request body
-    const { body } = request;
+    const { body } = req;
     //  Make the payload
     const payload = {
         workspace_id: WORKSPACE_ID,
