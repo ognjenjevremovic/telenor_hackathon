@@ -93,14 +93,35 @@ class StoresAnswers extends AnswerEntity
 
                 let name = cityData.attributes.name;
 
-                console.log(name);
+                if (null === name.match(matchRegex)) {
 
-                if (name.match(cityName)) {
-                    // city = cityData
+                    return;
+
                 }
 
+                cityId = cityData.id;
+
+                this.telenorApi.getStoresInCity(cityId, (error, data) => {
+
+                    if (error) {
+
+                        callback(FacebookMessageAPI.getTextMessageData(recipientId, 'Our service is currently offline.'));
+
+                        return;
+
+                    }
+
+                    let responseData = (data && data.data instanceof Array ? data.data : []).map((store) => {
+
+                        return store.attributes.address + ', ' + store.attributes.postalCode + ' ' + store.attributes.city;
+
+                    });
+
+                    callback(FacebookMessageAPI.getTextMessageData(recipientId, responseData.join("\n")));
+
+                });
+
             });
-            callback(data.data);
 
         });
 
