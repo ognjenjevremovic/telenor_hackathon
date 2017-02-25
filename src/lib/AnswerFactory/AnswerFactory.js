@@ -1,4 +1,3 @@
-const PhonesAnswers = require('./Answers/PhonesAnswer');
 
 const StoresAnswers = require('./Answers/StoresAnswers');
 
