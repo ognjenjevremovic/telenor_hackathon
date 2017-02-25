@@ -72,3 +72,8 @@ function updateMessage(response) {
     //  Return the response
     return response;
 }
+
+
+
+//  Module exports
+module.exports = pingWatson;
