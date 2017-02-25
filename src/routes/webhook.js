@@ -80,6 +80,9 @@ function contactWatson(event) {
             console.log(intent, entities);
             console.log(factory.factory(intent, entities));
         })
+        .catch((err) => {
+            
+        });
 }
 
 

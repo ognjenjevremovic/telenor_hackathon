@@ -33,6 +33,7 @@ function pingWatson(textMessage) {
         conversation
             .message(payload, (err, data) => {
                 if (err) return reject(err);
+                console.log('cao coa');
                 return resolve(
                     filterResponse(data)
                 );

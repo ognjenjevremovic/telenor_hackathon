@@ -1,7 +1,5 @@
 module.exports = (responseFromWatson) => {
-
-    console.log(responseFromWatson);
-
+    
     //  All the intents
     const { intents } = responseFromWatson;
     // //  All the entities
