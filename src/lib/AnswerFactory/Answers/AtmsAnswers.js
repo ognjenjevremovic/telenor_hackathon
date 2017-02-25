@@ -44,7 +44,7 @@ class AtmsAnswers extends AnswerEntity
         // Tell client to choose city
         if (0 === cities.length) {
 
-            callback(this.chooseAtmAnswers(recipientId));
+            callback(this.chooseAtmAnswer(recipientId));
 
         } else if (1 === cities.length) {
 
