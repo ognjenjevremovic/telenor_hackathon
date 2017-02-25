@@ -1,6 +1,4 @@
 module.exports = (responseFromWatson) => {
-    console.log(responseFromWatson);
-
     //  All the intents
     const { intents } = responseFromWatson;
     // //  All the entities
@@ -16,6 +14,6 @@ module.exports = (responseFromWatson) => {
     return {
         intent: intent.intent,
         entities: entities || [],
-
-    };
+        watsonMsg: output.text[0]
+    }; 
 };

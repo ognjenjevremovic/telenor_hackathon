@@ -104,14 +104,17 @@ function contactWatson(event) {
     var messageAttachments = message.attachments;
 
     pingWatson(messageText)
-        .then(({intent, entities}) => {
-
-            factory.factory(senderId, intent, entities, (messageData) => {
-
+        .then(({intent, entities, watsonMsg }) => {
+            
+            let factoryFound = factory.factory(senderId, intent, entities, (messageData) => {
+            
                 facebookApi.send(messageData);
 
             });
 
+            if (factoryFound === null) {
+                facebookApi.send(FacebookMessageAPI.getTextMessageData(senderId, watsonMsg));
+            }
         })
         .catch((err) => {
 
