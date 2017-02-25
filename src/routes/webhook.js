@@ -119,11 +119,9 @@ function receivedMessage(event) {
     }
 }
 
-
 const fbButtons = require(__dirname + '/../lib/FacebookMessage/FacebookButtons');
 
 const FacebookMessageAPI = require(__dirname + '/../lib/FacebookMessage/FacebookMessageAPI');
-
 
 function sendTextMessage(recipientId, messageText) {
 

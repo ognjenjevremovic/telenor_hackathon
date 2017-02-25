@@ -97,7 +97,7 @@ class FacebookWebHookButton extends FacebookButton
     constructor(title, hookUrl)
     {
 
-        super(title, 'postback', hookUrl);
+        super(title, 'postback', JSON.stringify(hookUrl));
 
     }
 
