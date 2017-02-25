@@ -47,7 +47,7 @@ router.post('/', function (req, res) {
             // Iterate over each messaging event
             entry.messaging.forEach(function (event) {
                 if (event.message) {
-                    receivedMessage(event);
+                    contactWatson(event);
                 } else {
                     console.log("Webhook received unknown event: ", event);
                 }
@@ -60,23 +60,22 @@ router.post('/', function (req, res) {
 });
 
 
-function receivedMessage(event) {
+function contactWatson(event) {
     var senderID = event.sender.id;
     var message = event.message;
 
     console.log(`
         Recieved message from the page!
     `);
-    console.log(JSON.stringify(message));
+    console.log(JSON.stringify(message.text));
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
 
-    if (messageText) {
-        sendTextMessage(senderID, messageText);
-    } else if (messageAttachments) {
-        sendTextMessage(senderID, "Message with attachment received");
-    }
+    pingWatson(messageText)
+        .then((err, data) => {
+            console.log(data);
+        });
 }
 
 const fbButtons = require(__dirname + '/../lib/FacebookMessage/FacebookButtons');

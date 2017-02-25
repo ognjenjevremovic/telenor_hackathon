@@ -15,7 +15,7 @@ const { PORT, ACCESS_TOKEN } = process.env;
 //  Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 //  Register the routesc
 app.use('/webhook', require(path.join(__dirname, 'routes', 'webhook')));
